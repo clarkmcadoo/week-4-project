@@ -27,15 +27,25 @@ console.log(searchBarInput.value);
 function createPageURL(){
   event.preventDefault();
   var baseURL = "https://api.soundcloud.com/users/";
-  var searchResult = searchBarInput.value;
+  var userInput = searchBarInput.value;
+  var searchResult = userInput.replace(" ","+");
   var client = "?client_id=8538a1744a7fdaa59981232897501e04";
-  var url = baseURL + searchResult + client;
+  var url1 = baseURL + searchResult + client;
 
+fetch (url1).then(function(response1){
+  return response1.json();
+})
+.then(function(firstData){
+  console.log(firstData);
+ searchedUserID = firstData.id;
+ console.log(searchedUserID);
+ return searchedUserID;
+});
+
+  var tracksUrl = baseURL + searchedUserID + "/tracks" + client;
   
-console.log(url);
-
   fetch(
-    url
+    tracksUrl
   )
     .then(function(response) {
       return response.json();
