@@ -1,22 +1,15 @@
-@font-face {
-  font-family: 'Lobster';
-  font-weight: 400;
-  src: local('Lobster'), url("https://fonts.googleapis.com/css?family=Lobster");
-}
-
 * {
   font-family: Arial, Helvetica, sans-serif;
   color: rgb(50, 50, 50);
 }
 
 body {
-  background-color: rgb(242, 242, 242);
+  background-color: darkgrey;
   text-align: center;
   padding: 0 3rem;
 }
 
 header > h1 {
-  font-family: 'Lobster';
   font-size: 4rem;
   margin-bottom: 2.5rem;
 }
@@ -42,6 +35,29 @@ header > h1 {
   padding: 4rem 0;
   border-top: .2rem solid rgb(150, 150, 150);
   border-bottom: .2rem solid rgb(220, 220, 220);
+}
+
+.search-form{
+  display: flex;
+  justify-content: center;
+}
+
+.search-form label{
+  font-size: 36px;
+  padding-top: 10px;
+  margin-right: 10px;
+}
+
+.search-form input{
+  width: 50%;
+}
+
+.search-form button{
+  width: 10%;
+}
+
+.search-form button:hover{
+  background-color: lightcoral;
 }
 
 form > input {
@@ -80,6 +96,10 @@ form > button {
 .results > div {
   width: 20%;
   margin-bottom: 2rem;
+}
+
+.results div:hover{
+  background-color: white;
 }
 
 div > img {

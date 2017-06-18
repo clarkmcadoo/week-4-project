@@ -3,27 +3,23 @@
 */
 
 // 1. First select and store the elements you'll be working with
-var container = document.querySelector(".container");
-var header = document.querySelector("h1");
-var player = document.querySelector(".player");
-var search = document.querySelector(".search");
-var searchForm = document.querySelector(".search-form");
 
+var player = document.querySelector(".player");
+var searchForm = document.querySelector(".search-form");
 var musicPlayer = document.querySelector(".music-player");
 var results = document.querySelector(".results");
 var searchBarInput = document.querySelector("#search-bar");
 var submit = document.querySelector(".submit");
-var listOfTracks = [];
 var client = "?client_id=8538a1744a7fdaa59981232897501e04";
 var baseURL = "https://api.soundcloud.com/users/";
 var trackNumber = [];
-
 
 // 2. Create your `onSubmit` event for getting the user's search term
 
 submit.addEventListener("click", createPageURL);
 
 // 3. Create your `fetch` request that is called after a submission
+
 function createPageURL() {
   event.preventDefault();
   var userInput = searchBarInput.value;
@@ -47,14 +43,16 @@ function createPageURL() {
         return response.json();
       })
       .then(function(data) {
-      // initializeMusicPlayer(data);        
         for (let i = 0; i < data.length; i++) {
           createArtist(data[i]);
-          listOfTracks.push(data[i].stream_url);
         }
-      initializeMusicPlayer(data);                
-      })
+        initializeMusicPlayer(data);
+      });
   }
+
+  var searchResultsText = document.createElement("h3");
+  results.appendChild(searchResultsText);
+  searchResultsText.innerHTML = "Search Results:";
 
   // 4. Create a way to append the fetch results to your page
 
@@ -67,62 +65,52 @@ function createPageURL() {
 
     var artistJacket = document.createElement("img");
     artistProfile.appendChild(artistJacket);
-    artistJacket.src = array.artwork_url;
-    artistJacket.id = "artist-img";
+    if (array.artwork_url == null) {
+      artistJacket.src =
+        "http://www.publicdomainpictures.net/pictures/40000/velka/question-mark.jpg";
+    } else {
+      artistJacket.src = array.artwork_url;
+    }
+    // artistJacket.src = array.artwork_url;
+    artistJacket.id = array.user.username;
     artistJacket.value = array.stream_url;
     artistJacket.title = array.title;
-    
 
     var artistTitle = document.createElement("p");
     artistProfile.appendChild(artistTitle);
     artistTitle.innerHTML = array.title;
-    artistTitle.id = "artist-title";
+    artistTitle.id = array.user.username;
     artistTitle.value = array.stream_url;
     artistTitle.title = array.title;
-    
-    
+
     var artistName = document.createElement("h3");
     artistProfile.appendChild(artistName);
     artistName.innerHTML = array.user.username;
-    artistName.id = "artist-name";
+    artistName.id = array.user.username;
     artistName.value = array.stream_url;
     artistName.title = array.title;
-    
-    
-  };
+  }
 
+  // 5. Create a way to listen for a click that will play the song in the audio play
 
-// 5. Create a way to listen for a click that will play the song in the audio play
+  function initializeMusicPlayer(dataArray) {
+    trackNumber = document.querySelectorAll(".artistTracks");
 
-function initializeMusicPlayer(dataArray){
+    for (i = 0; i < trackNumber.length; i++) {
+      trackNumber[i].addEventListener("click", playMusic);
+    }
 
-musicPlayer.src = dataArray[0].stream_url+client;
-trackNumber = document.querySelectorAll(".artistTracks");
+    function playMusic() {
+      var content = event.target;
+      console.log(content.title);
+      console.log(content.value);
 
-for (i=0; i<trackNumber.length; i++){
-    trackNumber[i].addEventListener("click", playMusic)
-};
+      var nowPlayingText = document.createElement("h5");
+      player.appendChild(nowPlayingText);
+      nowPlayingText.innerHTML =
+        "Now Playing: " + content.title + "  by  " + content.id;
 
-function playMusic(){
-    var content = event.target;
-    console.log(content.title);
-    console.log(content.value);
-
-  var nowPlayingText = document.createElement("h5");
-  player.appendChild(nowPlayingText);
-  nowPlayingText.innerHTML = "Now Playing: " + content.title + "  by  " + content.innerHTML;
-};
-
-
-
-var searchResultsText = document.createElement("h3");
-results.appendChild(searchResultsText);
-searchResultsText.innerHTML = "Search Results:";
-
-// var trackNumber = document.querySelectorAll("div.artistTracks");  
-// console.log(trackNumber);
-
-
-};
-
-};
+      musicPlayer.src = content.value + client;
+    }
+  }
+}
