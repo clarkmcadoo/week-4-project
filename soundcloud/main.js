@@ -44,6 +44,7 @@ function createPageURL() {
       })
       .then(function(data) {
         {
+          console.log("data", data);
           createArtist(data);
         }
         initializeMusicPlayer(data);
@@ -62,6 +63,12 @@ function createPageURL() {
     var searchResultsText = document.createElement("h3");
     results.appendChild(searchResultsText);
     searchResultsText.innerHTML = "Search Results:";
+
+    if(array.length === 0){
+    var noResultsText = document.createElement("h3");
+    results.appendChild(noResultsText);
+    searchResultsText.innerHTML = "No results, please try again! (try ASDF or Chance, I know those work!)";
+    }
 
     for (let i = 0; i < array.length; i++) {
       var artistProfile = document.createElement("div");
