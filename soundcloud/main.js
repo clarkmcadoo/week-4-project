@@ -43,53 +43,60 @@ function createPageURL() {
         return response.json();
       })
       .then(function(data) {
-        for (let i = 0; i < data.length; i++) {
-          createArtist(data[i]);
+        {
+          createArtist(data);
         }
         initializeMusicPlayer(data);
       });
   }
 
-  var searchResultsText = document.createElement("h3");
-  results.appendChild(searchResultsText);
-  searchResultsText.innerHTML = "Search Results:";
-
   // 4. Create a way to append the fetch results to your page
 
   function createArtist(array) {
 
-    var artistProfile = document.createElement("div");
-    results.appendChild(artistProfile);
-    artistProfile.className = "artistProfile";
-    artistProfile.value = array.stream_url;
-    artistProfile.title = array.title;
-
-    var artistJacket = document.createElement("img");
-    artistProfile.appendChild(artistJacket);
-    if (array.artwork_url == null) {
-      artistJacket.src =
-        "http://www.publicdomainpictures.net/pictures/40000/velka/question-mark.jpg";
-    } else {
-      artistJacket.src = array.artwork_url;
+    while (results.firstChild) {
+    //The list is LIVE so it will re-index each call
+    results.removeChild(results.firstChild);
     }
-    // artistJacket.src = array.artwork_url;
-    artistJacket.id = array.user.username;
-    artistJacket.value = array.stream_url;
-    artistJacket.title = array.title;
 
-    var artistTitle = document.createElement("p");
-    artistProfile.appendChild(artistTitle);
-    artistTitle.innerHTML = array.title;
-    artistTitle.id = array.user.username;
-    artistTitle.value = array.stream_url;
-    artistTitle.title = array.title;
+    var searchResultsText = document.createElement("h3");
+    results.appendChild(searchResultsText);
+    searchResultsText.innerHTML = "Search Results:";
 
-    var artistName = document.createElement("h3");
-    artistProfile.appendChild(artistName);
-    artistName.innerHTML = array.user.username;
-    artistName.id = array.user.username;
-    artistName.value = array.stream_url;
-    artistName.title = array.title;
+    for (let i = 0; i < array.length; i++) {
+      var artistProfile = document.createElement("div");
+      results.appendChild(artistProfile);
+      artistProfile.className = "artistProfile";
+      artistProfile.value = array[i].stream_url;
+      artistProfile.title = array[i].title;
+
+      var artistJacket = document.createElement("img");
+      artistProfile.appendChild(artistJacket);
+      if (array[i].artwork_url == null) {
+        artistJacket.src =
+          "http://www.publicdomainpictures.net/pictures/40000/velka/question-mark.jpg";
+      } else {
+        artistJacket.src = array[i].artwork_url;
+      }
+      // artistJacket.src = array[i].artwork_url;
+      artistJacket.id = array[i].user.username;
+      artistJacket.value = array[i].stream_url;
+      artistJacket.title = array[i].title;
+
+      var artistTitle = document.createElement("p");
+      artistProfile.appendChild(artistTitle);
+      artistTitle.innerHTML = array[i].title;
+      artistTitle.id = array[i].user.username;
+      artistTitle.value = array[i].stream_url;
+      artistTitle.title = array[i].title;
+
+      var artistName = document.createElement("h3");
+      artistProfile.appendChild(artistName);
+      artistName.innerHTML = array[i].user.username;
+      artistName.id = array[i].user.username;
+      artistName.value = array[i].stream_url;
+      artistName.title = array[i].title;
+    }
   }
 
   // 5. Create a way to listen for a click that will play the song in the audio play
@@ -103,11 +110,12 @@ function createPageURL() {
 
     function playMusic() {
       var playerText = document.querySelector(".player-text");
-      if(playerText.childNodes.length >= 1){
-      playerText.removeChild(playerText.childNodes[0]);
-      }else{ console.log("OK!")}
+      if (playerText.childNodes.length >= 1) {
+        playerText.removeChild(playerText.childNodes[0]);
+      } else {
+        console.log("OK!");
+      }
       var content = null;
-
 
       console.log("nowplayingtext", nowPlayingText);
 
@@ -120,7 +128,6 @@ function createPageURL() {
 
       musicPlayer.src = content.value + client;
       console.log("nowplayingtext", nowPlayingText);
-
+    }
   }
-}
 }
