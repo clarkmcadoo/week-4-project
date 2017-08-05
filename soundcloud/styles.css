@@ -4,7 +4,10 @@
 }
 
 body {
-  background-color: darkgrey;
+  background-image: url("pexels-photo-37728.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
   text-align: center;
   padding: 0 3rem;
 }
@@ -25,7 +28,7 @@ header > h1 {
   border: .2rem solid rgb(180, 180, 180);
 }
 
-.player > h5 {
+.playertext > h5 {
   font-size: 1rem;
   text-align: left;
   margin-top: .7rem;

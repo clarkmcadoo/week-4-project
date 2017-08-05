@@ -57,9 +57,10 @@ function createPageURL() {
   // 4. Create a way to append the fetch results to your page
 
   function createArtist(array) {
+
     var artistProfile = document.createElement("div");
     results.appendChild(artistProfile);
-    artistProfile.className = "artistTracks";
+    artistProfile.className = "artistProfile";
     artistProfile.value = array.stream_url;
     artistProfile.title = array.title;
 
@@ -94,23 +95,32 @@ function createPageURL() {
   // 5. Create a way to listen for a click that will play the song in the audio play
 
   function initializeMusicPlayer(dataArray) {
-    trackNumber = document.querySelectorAll(".artistTracks");
+    trackNumber = document.querySelectorAll(".artistProfile");
 
     for (i = 0; i < trackNumber.length; i++) {
       trackNumber[i].addEventListener("click", playMusic);
     }
 
     function playMusic() {
-      var content = event.target;
-      console.log(content.title);
-      console.log(content.value);
+      var playerText = document.querySelector(".player-text");
+      if(playerText.childNodes.length >= 1){
+      playerText.removeChild(playerText.childNodes[0]);
+      }else{ console.log("OK!")}
+      var content = null;
+
+
+      console.log("nowplayingtext", nowPlayingText);
+
+      content = event.target;
 
       var nowPlayingText = document.createElement("h5");
-      player.appendChild(nowPlayingText);
+      playerText.appendChild(nowPlayingText);
       nowPlayingText.innerHTML =
         "Now Playing: " + content.title + "  by  " + content.id;
 
       musicPlayer.src = content.value + client;
-    }
+      console.log("nowplayingtext", nowPlayingText);
+
   }
+}
 }
